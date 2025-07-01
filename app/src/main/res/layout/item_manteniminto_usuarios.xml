@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="236dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CÓDIGO"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCodigoUsu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NOMBRE"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtNombreUsu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TIPO"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtTipoUsu"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="238dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnEditarUsu"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:backgroundTint="#76ff85"
+                android:shadowColor="#000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"
+                android:text="EDITAR"
+                android:textSize="12sp"
+                app:icon="@drawable/icon_editar"
+                app:iconPadding="3dp" />
+
+            <Button
+                android:id="@+id/btnDetallesUsu"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:backgroundTint="#61bf6f"
+                android:shadowColor="#000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"
+                android:text="DETALLES"
+                android:textSize="12sp"
+                app:icon="@drawable/icon_detalles"
+                app:iconPadding="2dp" />
+
+            <Button
+                android:id="@+id/btnEliminarUsu"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:backgroundTint="#40a14e"
+                android:shadowColor="#000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3"
+                android:text="ELIMINAR"
+                android:textSize="12sp"
+                app:icon="@drawable/icon_eliminar"
+                app:iconPadding="3dp"
+                app:iconSize="14dp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

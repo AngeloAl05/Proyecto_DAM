@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">proyecto</string>
+    <string name="seleccione_estado">Seleccione Estado</string>
+    <string-array name="tipo">
+        <item>Cliente</item>
+        <item>Administrador</item>
+    </string-array>
+
+    <string-array name="estado">
+        <item>Activo</item>
+        <item>Inactivo</item>
+    </string-array>
+
+    <string-array name="categoria">
+        <item>Bebidas</item>
+        <item>Galletas</item>
+        <item>Pasteles</item>
+        <item>Snacks</item>
+        <item>Golosinas</item>
+    </string-array>
+
+    <string-array name="pago">
+        <item>YAPE</item>
+        <item>PLIN</item>
+        <item>BCP</item>
+    </string-array>
+
+        <string name="default_web_client_id">557182125368-1kdgrhkjf1cvicc9j422suepgilqjo57.apps.googleusercontent.com</string>
+
+</resources>
