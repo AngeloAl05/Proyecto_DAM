@@ -39,7 +39,7 @@ class CategoriaController {
         val RS = CN.rawQuery(sql, arrayOf(codigo.toString()))
         if (RS.moveToFirst()) {
             bean = Categoria(
-                RS.getInt(0),     // idCategoria
+                RS.getInt(0),
                 RS.getString(1)
             )
         }

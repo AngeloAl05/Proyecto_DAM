@@ -13,9 +13,12 @@ class ProductoController {
         var sql="select *from tb_producto"
         var RS=CN.rawQuery(sql,null)
         while(RS.moveToNext()){
-            var bean=Producto(RS.getInt(0),RS.getString(1),
-                RS.getInt(2),RS.getDouble(3),
-                RS.getInt(4),RS.getInt(5),
+            var bean=Producto(RS.getInt(0),
+                RS.getString(1),
+                RS.getInt(2),
+                RS.getDouble(3),
+                RS.getInt(4),
+                RS.getInt(5),
                 RS.getString(6))
             lista.add(bean)
         }
@@ -89,5 +92,17 @@ class ProductoController {
         }
         cursor.close()
         return lista
+    }
+    companion object {
+        fun obtenerNombreCategoriaPorId(id: Int): String {
+            val db = AppConfig.BD.readableDatabase
+            val cursor = db.rawQuery("SELECT nom FROM tb_categoria WHERE idcat = ?", arrayOf(id.toString()))
+            var nombre = "Desconocido"
+            if (cursor.moveToFirst()) {
+                nombre = cursor.getString(0)
+            }
+            cursor.close()
+            return nombre
+        }
     }
 }

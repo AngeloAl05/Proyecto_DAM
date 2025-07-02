@@ -4,14 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.proyecto.controller.CategoriaController
 import com.example.proyecto.controller.ProductoController
+import com.example.proyecto.entidad.Categoria
 import com.example.proyecto.entidad.Producto
 import com.example.proyecto.utils.ApiUtils
 import com.google.android.material.textfield.TextInputEditText
@@ -25,10 +29,10 @@ class ProductoActivity : AppCompatActivity() {
     private lateinit var txtCantidad: TextInputEditText
     private lateinit var txtPrecio: TextInputEditText
     private lateinit var txtStock: TextInputEditText
-    private lateinit var spnCategoria: AutoCompleteTextView
+    private lateinit var spnCategoria: Spinner
     private lateinit var btnNuevoProd: Button
     private lateinit var btnRegresarNuevoProd: Button
-
+    private var listaCategorias = CategoriaController().findAll()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,13 +47,20 @@ class ProductoActivity : AppCompatActivity() {
         txtCantidad = findViewById(R.id.txtCantidadNuevo)
         txtPrecio = findViewById(R.id.txtPrecioNuevo)
         txtStock = findViewById(R.id.txtUnidadEnExisNuevo)
-        spnCategoria = findViewById(R.id.spnCategoriaNuevo)
+        spnCategoria = findViewById(R.id.spnCategoria)
         btnNuevoProd = findViewById(R.id.btnNuevoProducto)
         btnRegresarNuevoProd = findViewById(R.id.btnRegresarProducto)
 
 
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listaCategorias)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spnCategoria.adapter = adapter
+
+
+
         btnNuevoProd.setOnClickListener { grabar() }
         btnRegresarNuevoProd.setOnClickListener { regresar() }
+
     }
 
     fun grabar() {
@@ -57,7 +68,8 @@ class ProductoActivity : AppCompatActivity() {
         val can = txtCantidad.text.toString().toIntOrNull()
         val pre = txtPrecio.text.toString().toDoubleOrNull()
         val stock = txtStock.text.toString().toIntOrNull()
-        val cat = spnCategoria.text.toString().toIntOrNull()
+        val catSeleccionada = spnCategoria.selectedItem as Categoria
+        val cat = catSeleccionada.idCategoria
 
         if (nom.isBlank() || can ==null || pre == null || stock == null || cat== null) {
             val camposFaltantes = mutableListOf<String>()

@@ -7,10 +7,12 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.proyecto.controller.CategoriaController
 import com.example.proyecto.controller.ProductoController
 import com.example.proyecto.entidad.Categoria
 import com.example.proyecto.entidad.Producto
@@ -28,12 +30,13 @@ class ProductoActualizarActivity : AppCompatActivity() {
     private lateinit var txtCantidad: TextInputEditText
     private lateinit var txtPrecio: TextInputEditText
     private lateinit var txtStock: TextInputEditText
-    private lateinit var spnCategoria: AutoCompleteTextView
+    private lateinit var spnCategoria: Spinner
     private lateinit var btnActualizarProd: Button
     private lateinit var btnRegresarActualizarProd: Button
     private lateinit var btnEliminarProd: Button
 
-    private lateinit var apiCategoria: ApiServiceCategoria
+    private var listaCategorias = CategoriaController().findAll()
+
     private var categorias: List<Categoria> = ArrayList()
     private var producto: Producto? = null
 
@@ -52,39 +55,22 @@ class ProductoActualizarActivity : AppCompatActivity() {
         txtCantidad = findViewById(R.id.txtCantidadActualizarProd)
         txtPrecio = findViewById(R.id.txtPrecioActualizarProd)
         txtStock = findViewById(R.id.txtUnidadEnExisActualizar)
-        spnCategoria = findViewById(R.id.spnCategoriaActualizar)
+        spnCategoria = findViewById(R.id.spnCategoriaAct)
         btnActualizarProd = findViewById(R.id.btnActualizarProd)
         btnRegresarActualizarProd = findViewById(R.id.btnRegresarActualizarProd)
         btnEliminarProd = findViewById(R.id.btnEliminarProd)
 
-
-        apiCategoria = ApiUtils.getAPICategoria()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listaCategorias)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spnCategoria.adapter = adapter
 
         btnActualizarProd.setOnClickListener { actualizar() }
         btnRegresarActualizarProd.setOnClickListener { regresar() }
         btnEliminarProd.setOnClickListener { eliminar() }
 
-        cargarCategorias()
         datos()
     }
 
-    private fun cargarCategorias() {
-        apiCategoria.findAll().enqueue(object : Callback<List<Categoria>> {
-            override fun onResponse(call: Call<List<Categoria>>, response: Response<List<Categoria>>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        categorias = it
-                        val adapter = ArrayAdapter(this@ProductoActualizarActivity, android.R.layout.simple_dropdown_item_1line, categorias.map { it.nombreCate })
-                        spnCategoria.setAdapter(adapter)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<List<Categoria>>, t: Throwable) {
-                showAlert(t.localizedMessage)
-            }
-        })
-    }
 
     private fun datos() {
         val info = intent.extras!!
@@ -94,8 +80,9 @@ class ProductoActualizarActivity : AppCompatActivity() {
         txtCantidad.setText(bean.cantidadProduc.toString())
         txtPrecio.setText(bean.precioProduc.toString())
         txtStock.setText(bean.unidadesProduc.toString())
-
-
+        val nombreCategoria = ProductoController.obtenerNombreCategoriaPorId(bean.idCategoria)
+        val posicion = (spnCategoria.adapter as ArrayAdapter<String>).getPosition(nombreCategoria)
+        spnCategoria.setSelection(posicion)
     }
 
     fun actualizar() {
@@ -104,7 +91,8 @@ class ProductoActualizarActivity : AppCompatActivity() {
         var can = txtCantidad.text.toString().toInt()
         var pre = txtPrecio.text.toString().toDouble()
         var stock = txtStock.text.toString().toInt()
-        var cat = spnCategoria.text.toString().toInt()
+        val catSeleccionada = spnCategoria.selectedItem as Categoria
+        val cat = catSeleccionada.idCategoria
 
         var img = asignarImagen(nom)
 

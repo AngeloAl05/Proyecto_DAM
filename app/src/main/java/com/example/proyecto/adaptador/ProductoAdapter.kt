@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.ProductoActualizarActivity
 import com.example.proyecto.R
 import com.example.proyecto.adaptador.ViewProducto
+import com.example.proyecto.controller.ProductoController
 import com.example.proyecto.entidad.Compra
 import com.example.proyecto.entidad.Producto
 import com.example.proyecto.utils.AppConfig
@@ -36,7 +37,7 @@ class ProductoAdapter(
         val producto = lista[position]
         holder.txtCodigoProd.text = producto.idProducto.toString()
         holder.txtNombreProd.text = producto.nombreProduc
-        holder.txtCategoriaProd.text = producto.idCategoria.toString()
+        holder.txtCategoriaProd.text = ProductoController.obtenerNombreCategoriaPorId(producto.idCategoria)
 
         if (showButtons) {
             holder.btnDetallesProd.visibility = View.VISIBLE
