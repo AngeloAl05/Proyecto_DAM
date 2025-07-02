@@ -10,7 +10,8 @@
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:background="#ff4375">
+        android:background="#ff4375"
+        tools:ignore="MissingConstraints">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvAdmin"
