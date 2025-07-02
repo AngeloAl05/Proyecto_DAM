@@ -45,8 +45,6 @@ class ProveedorActivity: AppCompatActivity()  {
         var dir=txtDireccion.text.toString()
         var telefono=txtTelefono.text.toString()
         var correo=txtCorreo.text.toString()
-        var bean=Proveedor(0,nom,dir,telefono,correo)
-        var salida=ProveedorController().save(bean)
 
         if (nom.isBlank() || dir.isBlank() || telefono.isBlank() || correo.isBlank()) {
             val camposFaltantes = mutableListOf<String>()
@@ -58,6 +56,9 @@ class ProveedorActivity: AppCompatActivity()  {
             mostrarAlerta("Falta ingresar los siguientes campos:\n${camposFaltantes.joinToString("\n")}")
             return
         }
+
+        var bean=Proveedor(0,nom,dir,telefono,correo)
+        var salida=ProveedorController().save(bean)
 
         if(salida>0)
             showAlert("Proveedor registrado correctamente")

@@ -10,7 +10,7 @@ class AppConfig : Application(){
         lateinit var CONTEXTO: Context
         lateinit var BD: InitBD
         var NOMBREBD="proyecto.bd"
-        var VERSION=1
+        var VERSION=2
 
         const val Usuario = "Usuario"
         const val UserId = "UserId"
@@ -24,8 +24,6 @@ class AppConfig : Application(){
     override fun onCreate() {
         super.onCreate()
         CONTEXTO = applicationContext
-        BD = InitBD()
-        //FacebookSdk.sdkInitialize(applicationContext)
-        //AppEventsLogger.activateApp(this)
+        BD = InitBD(applicationContext)
     }
 }

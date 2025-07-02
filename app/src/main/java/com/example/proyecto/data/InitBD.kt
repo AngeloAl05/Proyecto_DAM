@@ -1,14 +1,12 @@
 package com.example.proyecto.data
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.proyecto.utils.AppConfig
 
-class InitBD:SQLiteOpenHelper(AppConfig.CONTEXTO,
-    AppConfig.NOMBREBD,
-    null,
-    AppConfig.VERSION) {
+class InitBD(context: Context) : SQLiteOpenHelper(context, AppConfig.NOMBREBD, null, AppConfig.VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL("""create table tb_proveedor (
                       cod integer primary key autoincrement,
@@ -19,7 +17,7 @@ class InitBD:SQLiteOpenHelper(AppConfig.CONTEXTO,
 
 
         db.execSQL("""create table tb_categoria (
-                      idcat INTEGER primary key autoincrement,
+                      idcat integer primary key autoincrement,
                       nom varchar(50)
                     )""".trimIndent())
 
@@ -43,7 +41,7 @@ class InitBD:SQLiteOpenHelper(AppConfig.CONTEXTO,
         db.execSQL("insert into tb_proveedor values(null,'Celeste','Mz M Lote 2','9985748723','celesterosas@gmail.com')")
         db.execSQL("insert into tb_proveedor values(null,'Cristina','Mz L Lote 5','987452672','cristina@gmail.com')")
         //
-        /*db.execSQL("INSERT INTO tb_producto VALUES (null, 'Tres Leches', '4', 65.00, 2, 'Pasteles', 'tresleches')");
+        db.execSQL("INSERT INTO tb_producto VALUES (null, 'Tres Leches', '4', 65.00, 2, 'Pasteles', 'tresleches')");
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Inka Cola', '4', 3.50, 3, 'Bebidas', 'inkacola')");
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Lays', '2', 2.50, 5, 'Snacks', 'lays')");
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Oreo', '1', 4.50, 7, 'Galletas', 'oreo')");
@@ -52,9 +50,9 @@ class InitBD:SQLiteOpenHelper(AppConfig.CONTEXTO,
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Moka', '2', 6.00, 1, 'Café', 'moka')");
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Ole Ole', '3', 1.50, 8, 'Snacks', 'oleole')");
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Selva Negra', '4', 70.00, 9, 'Pasteles', 'selvanegra')");
-        db.execSQL("INSERT INTO tb_producto VALUES (null, 'Rellenita', '1', 3.00, 10, 'Galletas', 'rellenita')");*/
+        db.execSQL("INSERT INTO tb_producto VALUES (null, 'Rellenita', '1', 3.00, 10, 'Galletas', 'rellenita')");
 
-        db.execSQL("INSERT INTO tb_producto VALUES (null, 'Tres Leches', '4', 65.00, 3, 'tresleches')")    // Pasteles → ID 3
+        /*db.execSQL("INSERT INTO tb_producto VALUES (null, 'Tres Leches', '4', 65.00, 3, 'tresleches')")    // Pasteles → ID 3
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Inka Cola', '4', 3.50, 1, 'inkacola')")         // Bebidas → ID 1
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Lays', '2', 2.50, 4, 'lays')")                  // Snacks → ID 4
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Oreo', '1', 4.50, 2, 'oreo')")                  // Galletas → ID 2
@@ -63,12 +61,15 @@ class InitBD:SQLiteOpenHelper(AppConfig.CONTEXTO,
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Moka', '2', 6.00, 1, 'moka')")                  // Café → NO EXISTE en la tabla, ⚠️ Cuidado
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Ole Ole', '3', 1.50, 4, 'oleole')")             // Snacks → ID 4
         db.execSQL("INSERT INTO tb_producto VALUES (null, 'Selva Negra', '4', 70.00, 3, 'selvanegra')")    // Pasteles → ID 3
-        db.execSQL("INSERT INTO tb_producto VALUES (null, 'Rellenita', '1', 3.00, 2, 'rellenita')")
+        db.execSQL("INSERT INTO tb_producto VALUES (null, 'Rellenita', '1', 3.00, 2, 'rellenita')"*/
 
     }
 
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("Not yet implemented")
+    override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        db.execSQL("DROP TABLE IF EXISTS tb_categoria")
+        db.execSQL("DROP TABLE IF EXISTS tb_producto")
+        db.execSQL("DROP TABLE IF EXISTS tb_proveedor")
+        onCreate(db)
     }
 
     @SuppressLint("Range")

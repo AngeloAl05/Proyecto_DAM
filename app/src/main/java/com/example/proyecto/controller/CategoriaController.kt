@@ -2,6 +2,7 @@ package com.example.proyecto.controller
 
 import android.content.ContentValues
 import com.example.proyecto.entidad.Categoria
+import com.example.proyecto.entidad.Proveedor
 import com.example.proyecto.utils.AppConfig
 
 class CategoriaController {
@@ -31,20 +32,19 @@ class CategoriaController {
         return salida
     }
 
-    fun findById(codigo: Int): ArrayList<Categoria> {
-        val lista = ArrayList<Categoria>()
+    fun findById(codigo: Int): Categoria {
+        lateinit var bean: Categoria
         val CN = AppConfig.BD.readableDatabase
         val sql = "SELECT * FROM tb_categoria WHERE idcat=?"
         val RS = CN.rawQuery(sql, arrayOf(codigo.toString()))
         if (RS.moveToFirst()) {
-            val bean = Categoria(
+            bean = Categoria(
                 RS.getInt(0),     // idCategoria
                 RS.getString(1)
             )
-            lista.add(bean)
         }
         RS.close()
-        return lista
+        return bean
     }
 
 
