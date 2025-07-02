@@ -33,6 +33,14 @@ class InitBD(context: Context) : SQLiteOpenHelper(context, AppConfig.NOMBREBD, n
    
                    """.trimMargin())
 
+        db.execSQL("""create table tb_carrito (
+                      idcarrito integer primary key autoincrement,
+                      idproducto integer,
+                      cantidad integer,
+                      total double,
+                      FOREIGN KEY (idproducto) REFERENCES tb_producto(cod)
+                    )""".trimIndent())
+
         db.execSQL("INSERT INTO tb_categoria VALUES (null, 'Bebidas')")
         db.execSQL("INSERT INTO tb_categoria VALUES (null, 'Galletas')")
         db.execSQL("INSERT INTO tb_categoria VALUES (null, 'Pasteles')")
@@ -67,6 +75,7 @@ class InitBD(context: Context) : SQLiteOpenHelper(context, AppConfig.NOMBREBD, n
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        db.execSQL("DROP TABLE IF EXISTS tb_carrito")
         db.execSQL("DROP TABLE IF EXISTS tb_categoria")
         db.execSQL("DROP TABLE IF EXISTS tb_producto")
         db.execSQL("DROP TABLE IF EXISTS tb_proveedor")
