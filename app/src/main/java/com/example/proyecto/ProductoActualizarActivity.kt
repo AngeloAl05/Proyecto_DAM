@@ -94,7 +94,7 @@ class ProductoActualizarActivity : AppCompatActivity() {
         txtCantidad.setText(bean.cantidadProduc.toString())
         txtPrecio.setText(bean.precioProduc.toString())
         txtStock.setText(bean.unidadesProduc.toString())
-        spnCategoria.setText(bean.idCategoria, false)
+
 
     }
 
@@ -104,11 +104,11 @@ class ProductoActualizarActivity : AppCompatActivity() {
         var can = txtCantidad.text.toString().toInt()
         var pre = txtPrecio.text.toString().toDouble()
         var stock = txtStock.text.toString().toInt()
-        var cat = spnCategoria.text.toString()
+        var cat = spnCategoria.text.toString().toInt()
 
         var img = asignarImagen(nom)
 
-        var bean = Producto(cod, nom, can, pre, stock, cat, img)
+        var bean = Producto(cod, nom, can, pre, stock,cat, img)
 
         var salida = ProductoController().update(bean)
         if (salida > 0) {

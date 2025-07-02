@@ -48,7 +48,6 @@ class ListaProductoActivity: AppCompatActivity() {
         btnAdmin.setOnClickListener { admin() }
         btnNuevaProd.setOnClickListener { nuevo() }
         btnBuscar.setOnClickListener { buscar() }
-
         cargar()
     }
     fun admin(){
@@ -89,6 +88,7 @@ class ListaProductoActivity: AppCompatActivity() {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+
     fun cargar(){
         produc.clear()
         produc.addAll(ProductoController().findAll())

@@ -12,8 +12,11 @@ import com.example.proyecto.controller.ProveedorController
 import com.example.proyecto.entidad.Proveedor
 import com.example.proyecto.utils.AppConfig
 
-class ProveedorAdapter(private val lista: ArrayList<Proveedor>, private val onDetailClick: (Proveedor) -> Unit,
-                       private val onDeleteSuccess: () -> Unit) : RecyclerView.Adapter<ViewProveedor>(){
+class ProveedorAdapter(
+    private val lista: ArrayList<Proveedor>,
+    private val onDetailClick: (Proveedor) -> Unit,
+    private val onDeleteSuccess: () -> Unit
+) : RecyclerView.Adapter<ViewProveedor>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewProveedor {
         var inflador= LayoutInflater.from(parent.context).inflate(R.layout.item_lista_proveedor,parent,false)
         return ViewProveedor(inflador)
@@ -60,6 +63,8 @@ class ProveedorAdapter(private val lista: ArrayList<Proveedor>, private val onDe
             dialog.show()
         }
     }
+
+
 
     fun showAlert(men:String){
         val builder= androidx.appcompat.app.AlertDialog.Builder(AppConfig.CONTEXTO)

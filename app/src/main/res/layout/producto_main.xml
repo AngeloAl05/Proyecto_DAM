@@ -195,7 +195,15 @@
                     android:inputType="none"
                     app:simpleItems="@array/categoria" />
 
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:inputType="none"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
+
+
         </LinearLayout>
 
         <LinearLayout

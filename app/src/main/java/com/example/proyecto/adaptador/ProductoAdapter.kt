@@ -36,7 +36,7 @@ class ProductoAdapter(
         val producto = lista[position]
         holder.txtCodigoProd.text = producto.idProducto.toString()
         holder.txtNombreProd.text = producto.nombreProduc
-        holder.txtCategoriaProd.text = producto.idCategoria
+        holder.txtCategoriaProd.text = producto.idCategoria.toString()
 
         if (showButtons) {
             holder.btnDetallesProd.visibility = View.VISIBLE

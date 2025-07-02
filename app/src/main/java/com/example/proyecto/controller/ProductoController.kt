@@ -15,7 +15,7 @@ class ProductoController {
         while(RS.moveToNext()){
             var bean=Producto(RS.getInt(0),RS.getString(1),
                 RS.getInt(2),RS.getDouble(3),
-                RS.getInt(4),RS.getString(5),
+                RS.getInt(4),RS.getInt(5),
                 RS.getString(6))
             lista.add(bean)
         }
@@ -42,7 +42,7 @@ class ProductoController {
         if(RS.moveToNext()){
             bean= Producto(RS.getInt(0),RS.getString(1),
                 RS.getInt(2),RS.getDouble(3),
-                RS.getInt(4),RS.getString(5),
+                RS.getInt(4),RS.getInt(5),
                 RS.getString(6))
         }
         return bean
@@ -81,7 +81,7 @@ class ProductoController {
                     cursor.getInt(2),
                     cursor.getDouble(3),
                     cursor.getInt(4),
-                    cursor.getString(5),
+                    cursor.getInt(5),
                     cursor.getString(6)
                 )
                 lista.add(produc)

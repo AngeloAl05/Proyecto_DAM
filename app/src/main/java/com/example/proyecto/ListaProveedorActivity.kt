@@ -33,8 +33,10 @@ class ListaProveedorActivity: AppCompatActivity() {
         rvProveedor = findViewById(R.id.rvProveedor)
         btnNuevoProv = findViewById(R.id.btnNuevoProv)
         btnAdmin = findViewById(R.id.btnAdmin)
+
         btnAdmin.setOnClickListener { admin() }
         btnNuevoProv.setOnClickListener { nuevo() }
+
         lista()
     }
     fun admin(){

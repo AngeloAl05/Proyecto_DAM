@@ -2,6 +2,7 @@ package com.example.proyecto
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.proyecto.controller.CategoriaController
 import com.example.proyecto.entidad.Categoria
 import com.example.proyecto.entidad.Usuario
 import com.example.proyecto.services.ApiServiceCategoria
@@ -57,8 +59,6 @@ class CategoriaActivity: AppCompatActivity() {
         if (nom.isBlank() || des.isBlank() || estado.isBlank()) {
             val camposFaltantes = mutableListOf<String>()
             if (nom.isBlank()) camposFaltantes.add("Nombre")
-            if (des.isBlank()) camposFaltantes.add("Descripción")
-            if (estado.isBlank()) camposFaltantes.add("Estado")
 
             mostrarAlerta("Falta ingresar los siguientes campos:\n${camposFaltantes.joinToString("\n")}")
             return
@@ -66,30 +66,22 @@ class CategoriaActivity: AppCompatActivity() {
 
         val estadoInt = stringToEstado(estado)
 
-        val cate = Categoria(0, nom, des, estadoInt)
-        registrar(cate)
+        val cate = Categoria(0, nom)
+        val salida = CategoriaController().save(cate)
+
+        if (salida != -1) {
+            showAlert("Categoria registrado correctamente") {
+                Handler(mainLooper).postDelayed({
+                    val intent = Intent(this, ListaCategoriaActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }, 1500)
+            }
+        } else {
+            showAlert("Error en el registro del categoria")
+        }
     }
 
-    fun registrar(bean: Categoria) {
-        api.save(bean).enqueue(object : Callback<Categoria> {
-            override fun onResponse(call: Call<Categoria>, response: Response<Categoria>) {
-                if (response.isSuccessful) {
-                    val categoria = response.body()
-                    if (categoria != null) {
-                        showAlert("La Categoría se registró con el ID: ${categoria.idCategoria}")
-                    } else {
-                        showAlert("Error: Categoría recibida del servidor es nula")
-                    }
-                } else {
-                    showAlert("Error al registrar categoría: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<Categoria>, t: Throwable) {
-                showAlert("Error: ${t.localizedMessage}")
-            }
-        })
-    }
 
     private fun regresar() {
         val intent = Intent(this, ListaCategoriaActivity::class.java)

@@ -11,11 +11,14 @@ class ProveedorController {
         var sql="select *from tb_proveedor"
         var RS=CN.rawQuery(sql,null)
         while(RS.moveToNext()){
-            var bean=Proveedor(RS.getInt(0),RS.getString(1),
-                RS.getString(2),RS.getString(3),
+            var bean=Proveedor(RS.getInt(0),
+                RS.getString(1),
+                RS.getString(2),
+                RS.getString(3),
                 RS.getString(4))
             lista.add(bean)
         }
+        RS.close()
         return lista
     }
     fun save(doc:Proveedor):Int{
@@ -39,6 +42,7 @@ class ProveedorController {
                 RS.getString(2),RS.getString(3),
                 RS.getString(4))
         }
+        RS.close()
         return bean
     }
     fun update(doc:Proveedor):Int{

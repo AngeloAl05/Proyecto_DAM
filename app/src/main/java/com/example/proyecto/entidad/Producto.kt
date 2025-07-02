@@ -6,9 +6,9 @@ class Producto(
     var cantidadProduc: Int = 0,
     var precioProduc: Double = 0.0,
     var unidadesProduc: Int = 0,
-    var idCategoria: String = "",
+    var idCategoria: Int = 0,
     var foto: String = ""
 ) {
 
-    constructor() : this(0, "", 0, 0.0, 0, "", "")
+    constructor() : this(0, "", 0, 0.0, 0, 0, "")
 }

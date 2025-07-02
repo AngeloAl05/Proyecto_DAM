@@ -56,7 +56,7 @@ class CategoriaActualizarActivity: AppCompatActivity() {
         var des=txtDescripcion.text.toString()
         var estado = stringToEstado(snpEstado.text.toString())
 
-        var bean= Categoria(cod,nom,des,estado)
+        var bean= Categoria(cod,nom)
 
         api.update(bean).enqueue(object: Callback<Categoria> {
             override fun onResponse(call: Call<Categoria>, response: Response<Categoria>) {
@@ -90,8 +90,6 @@ class CategoriaActualizarActivity: AppCompatActivity() {
                     var obj=response.body()!!
                     txtCodigo.setText(obj.idCategoria.toString())
                     txtNombre.setText(obj.nombreCate)
-                    txtDescripcion.setText(obj.descripcion)
-                    snpEstado.setText(estadoToString(obj.estado), false)
                 }
             }
             override fun onFailure(call: Call<Categoria>, t: Throwable) {

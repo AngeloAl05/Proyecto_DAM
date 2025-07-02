@@ -57,15 +57,15 @@ class ProductoActivity : AppCompatActivity() {
         val can = txtCantidad.text.toString().toIntOrNull()
         val pre = txtPrecio.text.toString().toDoubleOrNull()
         val stock = txtStock.text.toString().toIntOrNull()
-        val cat = spnCategoria.text.toString()
+        val cat = spnCategoria.text.toString().toIntOrNull()
 
-        if (nom.isBlank() || can ==null || pre == null || stock == null || cat.isBlank()) {
+        if (nom.isBlank() || can ==null || pre == null || stock == null || cat== null) {
             val camposFaltantes = mutableListOf<String>()
             if (nom.isBlank()) camposFaltantes.add("Nombre")
             if (can == null) camposFaltantes.add("Cantidad")
             if (pre == null) camposFaltantes.add("Precio")
             if (stock == null) camposFaltantes.add("Stock")
-            if (cat.isBlank()) camposFaltantes.add("Categoría")
+            if (cat== null) camposFaltantes.add("Categoría")
 
             mostrarAlerta("Falta ingresar los siguientes campos:\n${camposFaltantes.joinToString("\n")}")
             return

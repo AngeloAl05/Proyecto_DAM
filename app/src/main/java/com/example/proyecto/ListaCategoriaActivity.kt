@@ -13,6 +13,10 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.adaptador.CategoriaAdapter
+import com.example.proyecto.adaptador.ProveedorAdapter
+import com.example.proyecto.controller.CategoriaController
+import com.example.proyecto.controller.ProductoController
+import com.example.proyecto.controller.ProveedorController
 import com.example.proyecto.entidad.Categoria
 import com.example.proyecto.services.ApiServiceCategoria
 import com.example.proyecto.utils.ApiUtils
@@ -30,9 +34,6 @@ class ListaCategoriaActivity: AppCompatActivity() {
     private lateinit var rvCategoria: RecyclerView
     private lateinit var btnAdmin:ImageView
 
-    private lateinit var apiService: ApiServiceCategoria
-    private lateinit var categoriaAdapter: CategoriaAdapter
-    private val categorias = ArrayList<Categoria>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,34 +50,38 @@ class ListaCategoriaActivity: AppCompatActivity() {
         rvCategoria = findViewById(R.id.rvCategoria)
         btnAdmin = findViewById(R.id.btnAdmin)
 
-        categoriaAdapter = CategoriaAdapter(
-            this,
-            categorias,
-            { categoria -> showDetailDialog(categoria) },
-            { fetchCategorias() }
-        )
-        apiService = ApiUtils.getAPICategoria()
-        rvCategoria.layoutManager = LinearLayoutManager(this)
-        rvCategoria.adapter = categoriaAdapter
+
         btnAdmin.setOnClickListener { admin() }
         btnNuevaCat.setOnClickListener { nueva() }
-        btnBuscar.setOnClickListener { buscar() }
-        fetchCategorias()
+        btnBuscar.setOnClickListener { /*buscar()*/ }
+        lista()
     }
+
     fun admin(){
         var intent = Intent(this, AdministradorActivity::class.java)
         startActivity(intent)
     }
+
     fun nueva() {
         var intent = Intent(this, CategoriaActivity::class.java)
         startActivity(intent)
     }
+
+    fun lista() {
+        val categorias = CategoriaController().findAll()
+        val adaptador = CategoriaAdapter(categorias, this::showDetailDialog) {
+            showAlert("Categoria eliminada correctamente")
+            lista()
+        }
+        rvCategoria.layoutManager = LinearLayoutManager(this)
+        rvCategoria.adapter = adaptador
+    }
+
+
     fun showDetailDialog(categoria: Categoria) {
         val mensaje = """
         Código: ${categoria.idCategoria}
         Nombre: ${categoria.nombreCate}
-        Descripción: ${categoria.descripcion}
-        Estado: ${categoria.estado}
     """.trimIndent()
 
         val builder = AlertDialog.Builder(this)
@@ -87,7 +92,16 @@ class ListaCategoriaActivity: AppCompatActivity() {
         dialog.show()
     }
 
-    fun buscar() {
+    fun showAlert(mensaje: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("SISTEMA")
+        builder.setMessage(mensaje)
+        builder.setPositiveButton("Aceptar", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+    /*fun buscar() {
         val codigoCategoria = textBuscarCat.text.toString().toIntOrNull()
         if (codigoCategoria != null) {
             apiService.findById(codigoCategoria).enqueue(object : Callback<Categoria> {
@@ -123,11 +137,23 @@ class ListaCategoriaActivity: AppCompatActivity() {
                 }
             })
         } else {
-            fetchCategorias()
+            cargar()
+        }
+    }*/
+
+    /*fun buscar() {
+        val codigoCategoria = textBuscarCat.text.toString().toIntOrNull()
+        if (codigoCategoria==null) {
+            lista()
+        } else {
+            var cate = CategoriaController().findById(codigoCategoria)
+            categorias.clear()
+            categorias.addAll(cate)
+            categoriaAdapter?.notifyDataSetChanged()
         }
     }
-
-    private fun fetchCategorias() {
+*/
+    /*private fun fetchCategorias() {
         apiService.findAll().enqueue(object : Callback<List<Categoria>> {
             override fun onResponse(
                 call: Call<List<Categoria>>,
@@ -157,6 +183,5 @@ class ListaCategoriaActivity: AppCompatActivity() {
                 ).show()
             }
         })
-    }
-
+    }*/
 }
