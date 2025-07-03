@@ -13,7 +13,6 @@ class ViewCompra(vista: View): RecyclerView.ViewHolder(vista) {
     var txtPrecio: TextView
     var txtCantidad: TextView
     var ImgCarrito:ImageView
-    var btnPagar:   Button
     var btnEliminarProdCarrito: Button
 
     init {
@@ -21,7 +20,6 @@ class ViewCompra(vista: View): RecyclerView.ViewHolder(vista) {
         txtPrecio = vista.findViewById(R.id.txtPrecio)
         txtCantidad = vista.findViewById(R.id.txtCantidad)
         ImgCarrito = vista.findViewById(R.id.imgFoto)
-        btnPagar = vista.findViewById(R.id.btnPagar)
         btnEliminarProdCarrito = vista.findViewById(R.id.btnEliminarProdCarrito)
     }
 }

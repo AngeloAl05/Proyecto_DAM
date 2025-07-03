@@ -119,6 +119,8 @@ class CompraActivity:AppCompatActivity() {
         imageView.layoutParams = layoutParamsImage
         imageView.scaleType = ImageView.ScaleType.FIT_CENTER
 
+
+
         when (tipoPago.lowercase()) {
             "yape" -> {
                 imageView.setImageResource(R.drawable.yape)

@@ -35,11 +35,27 @@ class InitBD(context: Context) : SQLiteOpenHelper(context, AppConfig.NOMBREBD, n
 
         db.execSQL("""create table tb_carrito (
                       idcarrito integer primary key autoincrement,
-                      idproducto integer,
-                      cantidad integer,
-                      total double,
-                      FOREIGN KEY (idproducto) REFERENCES tb_producto(cod)
+                      total double
                     )""".trimIndent())
+
+
+
+        db.execSQL("""CREATE TABLE tb_producto_carrito (
+                      id INTEGER PRIMARY KEY AUTOINCREMENT,
+                      idproducto INTEGER NOT NULL,
+                      idcarrito INTEGER NOT NULL,
+                      cantidad INTEGER NOT NULL,
+                      subtotal DOUBLE NOT NULL,
+                      FOREIGN KEY (idproducto) REFERENCES tb_producto(cod),
+                      FOREIGN KEY (idcarrito) REFERENCES tb_carrito(idcarrito)
+                        )""".trimIndent())
+
+
+
+
+
+
+
 
         db.execSQL("INSERT INTO tb_categoria VALUES (null, 'Bebidas')")
         db.execSQL("INSERT INTO tb_categoria VALUES (null, 'Galletas')")

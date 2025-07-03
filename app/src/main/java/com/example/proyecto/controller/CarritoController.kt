@@ -1,18 +1,21 @@
 package com.example.proyecto.controller
 
+import android.content.ContentValues
+import com.example.proyecto.entidad.Carrito
+import com.example.proyecto.entidad.Producto_carrito
+import com.example.proyecto.utils.AppConfig
+
 class CarritoController {
 
-    fun findAll(): ArrayList<Compra> {
-        val lista = ArrayList<Compra>()
+    fun findAll(): ArrayList<Carrito> {
+        val lista = ArrayList<Carrito>()
         val CN = AppConfig.BD.readableDatabase
         val sql = "SELECT * FROM tb_carrito"
         val RS = CN.rawQuery(sql, null)
         while (RS.moveToNext()) {
-            val bean = Compra(
-                RS.getInt(0),     // idcarrito
-                RS.getInt(1),     // idproducto
-                RS.getInt(2),     // cantidad
-                RS.getDouble(3)   // total
+            val bean = Carrito(
+                RS.getInt(0),     // id
+                RS.getDouble(1)   // total
             )
             lista.add(bean)
         }
@@ -20,37 +23,31 @@ class CarritoController {
         return lista
     }
 
-    fun save(doc: Compra): Int {
+    fun save(doc: Carrito): Int {
         val CN = AppConfig.BD.writableDatabase
         val content = ContentValues()
-        content.put("idproducto", doc.idProducto)
-        content.put("cantidad", doc.cantidad)
         content.put("total", doc.total)
         return CN.insert("tb_carrito", "idcarrito", content).toInt()
     }
 
-    fun findById(id: Int): Compra? {
+    fun findById(id: Int): Carrito? {
         val CN = AppConfig.BD.readableDatabase
         val sql = "SELECT * FROM tb_carrito WHERE idcarrito=?"
         val RS = CN.rawQuery(sql, arrayOf(id.toString()))
-        var bean: Compra? = null
+        var bean: Carrito? = null
         if (RS.moveToFirst()) {
-            bean = Compra(
+            bean = Carrito(
                 RS.getInt(0),
-                RS.getInt(1),
-                RS.getInt(2),
-                RS.getDouble(3)
+                RS.getDouble(1)
             )
         }
         RS.close()
         return bean
     }
 
-    fun update(doc: Compra): Int {
+    fun update(doc: Carrito): Int {
         val CN = AppConfig.BD.writableDatabase
         val content = ContentValues()
-        content.put("idproducto", doc.idProducto)
-        content.put("cantidad", doc.cantidad)
         content.put("total", doc.total)
         return CN.update("tb_carrito", content, "idcarrito=?", arrayOf(doc.idCarrito.toString()))
     }
@@ -60,21 +57,20 @@ class CarritoController {
         return CN.delete("tb_carrito", "idcarrito=?", arrayOf(id.toString()))
     }
 
-    fun findByProducto(idProducto: Int): ArrayList<Compra> {
-        val lista = ArrayList<Compra>()
+
+    /*fun findByProducto(idProducto: Int): ArrayList<Carrito> {
+        val lista = ArrayList<Carrito>()
         val CN = AppConfig.BD.readableDatabase
         val query = "SELECT * FROM tb_carrito WHERE idproducto=?"
         val RS = CN.rawQuery(query, arrayOf(idProducto.toString()))
         while (RS.moveToNext()) {
-            val bean = Compra(
+            val bean = Carrito(
                 RS.getInt(0),
-                RS.getInt(1),
-                RS.getInt(2),
-                RS.getDouble(3)
+                RS.getDouble(1)
             )
             lista.add(bean)
         }
         RS.close()
         return lista
-    }
+    }*/
 }

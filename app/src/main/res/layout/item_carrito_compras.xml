@@ -76,20 +76,6 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btnPagar"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:backgroundTint="#76ff85"
-                android:shadowColor="#000"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="3"
-                android:text="PAGAR"
-                android:textSize="12sp"
-                app:icon="@drawable/icon_pagar"
-                app:iconPadding="2dp" />
-
-            <Button
                 android:id="@+id/btnEliminarProdCarrito"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

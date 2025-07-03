@@ -7,10 +7,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.ProductoActualizarActivity
+import com.example.proyecto.controller.CarritoController
 import com.example.proyecto.R
 import com.example.proyecto.adaptador.ViewProducto
 import com.example.proyecto.controller.ProductoController
-import com.example.proyecto.entidad.Compra
+import com.example.proyecto.entidad.Carrito
 import com.example.proyecto.entidad.Producto
 import com.example.proyecto.utils.AppConfig
 import com.google.firebase.database.*
@@ -21,7 +22,6 @@ class ProductoAdapter(
     private val onDetailClick: (Producto) -> Unit
 ) : RecyclerView.Adapter<ViewProducto>() {
 
-    private var database = FirebaseDatabase.getInstance().getReference("carrito")
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewProducto {
         val inflater = LayoutInflater.from(parent.context)
@@ -85,41 +85,36 @@ class ProductoAdapter(
     }
 
     fun añadirProductoACarrito(context: Context, producto: Producto) {
-        val carritoRef = database.orderByChild("idProducto").equalTo(producto.idProducto.toDouble())
-        carritoRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (productSnapshot in snapshot.children) {
-                        val existingProducto = productSnapshot.getValue(Compra::class.java)
-                        if (existingProducto != null) {
-                            val nuevaCantidad = existingProducto.cantidadProduc + 1
-                            val nuevoPrecio = existingProducto.precioProduc + producto.precioProduc
-                            if (nuevaCantidad > 0) {
-                                productSnapshot.ref.child("cantidad").setValue(nuevaCantidad)
-                                productSnapshot.ref.child("precio").setValue(nuevoPrecio)
-                                mostrarDialogoExito(context, producto, nuevaCantidad, producto.foto)
-                            } else {
-                                productSnapshot.ref.removeValue()
-                                mostrarDialogoExito(context, producto, nuevaCantidad, producto.foto)
-                            }
-                            return
-                        }
-                    }
-                } else {
-                    val nuevaCompra = Compra(producto.nombreProduc, 1, producto.precioProduc, producto.foto)
-                    database.push().setValue(nuevaCompra).addOnSuccessListener {
-                        mostrarDialogoExito(context, producto, 1, producto.foto)
-                    }.addOnFailureListener {
-                        mostrarDialogoError(context)
-                    }
-                }
-            }
+        val controller = CarritoController()
+        val carritoExistente = controller.findByProducto(producto.idProducto)
 
-            override fun onCancelled(error: DatabaseError) {
+        if (carritoExistente.isNotEmpty()) {
+            // Ya existe, actualizamos cantidad y total
+            val existente = carritoExistente[0]
+            val nuevaCantidad = existente.cantidad + 1
+            val nuevoTotal = nuevaCantidad * producto.precioProduc
+
+            existente.cantidad = nuevaCantidad
+            existente.total = nuevoTotal
+
+            val actualizado = controller.update(existente)
+            if (actualizado > 0) {
+                mostrarDialogoExito(context, producto, nuevaCantidad, producto.foto)
+            } else {
                 mostrarDialogoError(context)
             }
-        })
+        } else {
+            // Nuevo producto en el carrito
+            val nuevo = com.example.proyecto.entidad.Compra(0, producto.idProducto, 1, producto.precioProduc)
+            val insertado = controller.save(nuevo)
+            if (insertado != -1) {
+                mostrarDialogoExito(context, producto, 1, producto.foto)
+            } else {
+                mostrarDialogoError(context)
+            }
+        }
     }
+
 
     fun mostrarDialogoExito(context: Context, producto: Producto, cantidad: Int, foto: String) {
         val mensajeExito = "${producto.nombreProduc} agregado al carrito (Cantidad: $cantidad)"

@@ -7,12 +7,12 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.proyecto.entidad.Compra
+import com.example.proyecto.entidad.Carrito
+import com.example.proyecto.entidad.Producto_carrito
 import com.example.proyecto.utils.AppConfig
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
@@ -20,10 +20,10 @@ import com.google.firebase.database.*
 class ListaCompraActivity : AppCompatActivity() {
 
     private lateinit var rvCompras: RecyclerView
-    private lateinit var btnSeguirCompra: Button
+    private lateinit var btnConfirmar: Button
     private lateinit var compraAdapter: CompraAdapter
     private lateinit var database: DatabaseReference
-    private lateinit var compras: ArrayList<Compra>
+    private lateinit var compras: ArrayList<Producto_carrito>
     private lateinit var btnAdmin:ImageButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +36,22 @@ class ListaCompraActivity : AppCompatActivity() {
         }
 
         rvCompras = findViewById(R.id.rvCompras)
-        btnSeguirCompra = findViewById(R.id.btnSeguirCompra)
+        btnConfirmar = findViewById(R.id.btnConfirmarCompra)
         compras = ArrayList()
-        btnSeguirCompra.setOnClickListener { inicio() }
+
+
         FirebaseApp.initializeApp(this)
+
+
         btnAdmin=findViewById(R.id.btnAdmin)
-        btnAdmin.setOnClickListener { login() }
         database = FirebaseDatabase.getInstance().reference
+
+        btnAdmin.setOnClickListener { login() }
+
+
+
         cargarProductos()
+
 
         compraAdapter = CompraAdapter(compras, database,
             onPagarClick = { compra ->
@@ -62,16 +70,19 @@ class ListaCompraActivity : AppCompatActivity() {
         rvCompras.adapter = compraAdapter
         rvCompras.layoutManager = LinearLayoutManager(this)
     }
+
     fun login(){
         var data= Intent(this,LoginActivity::class.java)
         startActivity(data)
     }
+
+
     fun cargarProductos() {
         database.child("carrito").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val updatedCompras = ArrayList<Compra>()
+                val updatedCompras = ArrayList<Carrito>()
                 for (productoSnapshot in snapshot.children) {
-                    val producto = productoSnapshot.getValue(Compra::class.java)
+                    val producto = productoSnapshot.getValue(Carrito::class.java)
                     if (producto != null) {
                         if (producto.cantidadProduc > 0) {
                             val existingCompra = compras.find { it.nombreProduc == producto.nombreProduc }

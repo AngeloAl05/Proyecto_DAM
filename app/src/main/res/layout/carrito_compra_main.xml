@@ -119,12 +119,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
+            android:layout_weight="1"
             android:orientation="horizontal"
             android:paddingLeft="60dp"
             android:paddingRight="60dp">
 
             <Button
-                android:id="@+id/btnSeguirCompra"
+                android:id="@+id/btnConfirmarCompra"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -133,7 +134,7 @@
                 android:shadowDx="2"
                 android:shadowDy="2"
                 android:shadowRadius="3"
-                android:text="SEGUIR COMPRANDO" />
+                android:text="CONFIRMAR COMPRA" />
 
         </LinearLayout>
 

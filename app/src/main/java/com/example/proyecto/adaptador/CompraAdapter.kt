@@ -6,14 +6,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyecto.R
 import com.example.proyecto.adaptador.ViewCompra
-import com.example.proyecto.entidad.Compra
-import com.example.proyecto.utils.AppConfig
+import com.example.proyecto.entidad.Carrito
+import com.example.proyecto.entidad.Producto_carrito_detalle
 import com.google.firebase.database.DatabaseReference
 
 class CompraAdapter(
-    private val lista: ArrayList<Compra>,
+    private val lista: ArrayList<Producto_carrito_detalle>,
     private val database: DatabaseReference,
-    private val onPagarClick: (Compra) -> Unit,
     private val onDeleteSuccess: () -> Unit
 ) : RecyclerView.Adapter<ViewCompra>() {
 
@@ -28,19 +27,16 @@ class CompraAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewCompra, position: Int) {
-        val carrito = lista[position]
-        holder.txtNombreCarrito.text = carrito.nombreProduc
-        holder.txtPrecio.text = carrito.precioProduc.toString()
-        holder.txtCantidad.text = carrito.cantidadProduc.toString()
+        val productosDeCarrito = lista[position]
+        holder.txtNombreCarrito.text = productosDeCarrito.nombreProducto
+        holder.txtPrecio.text = productosDeCarrito.precio.toString()
+        holder.txtCantidad.text = productosDeCarrito.cantidad.toString()
 
-        holder.btnPagar.setOnClickListener {
-            onPagarClick(carrito)
-        }
         holder.btnEliminarProdCarrito.setOnClickListener {
-            showAlertEliminar("¿Está seguro de eliminar el producto: ${carrito.nombreProduc}?", position, holder.itemView.context)
+            showAlertEliminar("¿Está seguro de eliminar el producto: ${productosDeCarrito.nombreProducto}?", position, holder.itemView.context)
         }
         val context = holder.itemView.context
-        val resourceId = context.resources.getIdentifier(carrito.foto, "drawable", context.packageName)
+        val resourceId = context.resources.getIdentifier(productosDeCarrito.foto, "drawable", context.packageName)
         if (resourceId != 0) {
             holder.ImgCarrito.setImageResource(resourceId)
         } else {
